@@ -25,6 +25,7 @@ function fail(message) {
 }
 
 const channels = { 0: 1, 2: 3, 3: 1, 4: 2, 6: 4 };
+const depths = { 0: [1, 2, 4, 8, 16], 2: [8, 16], 3: [1, 2, 4, 8], 4: [8, 16], 6: [8, 16] };
 
 function validate(data) {
   if (data.length > MAX_BYTES) fail(`size ${data.length} exceeds ${MAX_BYTES}`);
@@ -59,6 +60,7 @@ function validate(data) {
         fail(`${header.width}x${header.height} exceeds ${MAX_DIM}x${MAX_DIM}`);
       }
       if (!(header.color in channels)) fail('bad colour type');
+      if (!depths[header.color].includes(header.depth)) fail('bad bit depth');
     } else if (type === 'IHDR') fail('duplicate IHDR');
     if (type === 'IDAT') idat.push(body);
     if (type === 'IEND') {
