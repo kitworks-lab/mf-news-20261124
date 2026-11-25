@@ -1,0 +1,4 @@
+out/
+preview-300.png
+*.tmp
+node_modules/
